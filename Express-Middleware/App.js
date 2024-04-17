@@ -2,15 +2,27 @@ import express from 'express'
 
 const app = express();
 
+app.use (middleWare1);
+app.use(middleWare2)
+
 function middleWare1 (req, res, next) {
-    console.log(`I am a middleware`)
+    console.log(`I am middleware 1`)
+    next()
 }
 
-function standardExpressCallback (requestObject, responseObject, nextMiddleware) {
+function middleWare2 (req, res, next) {
+    console.log(`I am middleware 2`)
+    next()
+}
+
+function middleWare3 (req, res, next) {
+    console.log(`I am middleware 3`)
+    next()
+}
+
+app.get ('/' ,middleWare3 , (req, res, next) => {
     console.log(`I am the standard express function`)
-    responseObject.send(`Hello world`)
-}
-
-app.get ('/', standardExpressCallback)
+    res.send(`This is an express App`)
+})
 
 app.listen (3000);
