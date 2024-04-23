@@ -2,7 +2,7 @@ import express from 'express';
 import users from '../../Users.js';
 import {v4 as uuidv4} from 'uuid';
 
-const router = express.Router();
+export const router = express.Router();
 
 router.get ('/', (req, res) => {
     res.json (users);
@@ -50,6 +50,21 @@ router.put ('/:id', (req, res) => {
         })
     }
 })
+
+//delete users
+router.delete('/:id', (req, res) => {
+    const found = users.some((user) => user.id === parseInt(req.params.id));
+
+    if (found) {
+        let updatedUsers = users.filter((user) => user.id !== parseInt(req.params.id));
+        res.json({
+            msg: 'User deleted',
+            users: updatedUsers
+        });
+    } else {
+        res.sendStatus(400);
+    }
+});
 
 export default router
 
